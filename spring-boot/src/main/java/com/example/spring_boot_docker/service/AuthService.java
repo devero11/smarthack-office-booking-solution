@@ -1,3 +1,4 @@
+
 package com.example.spring_boot_docker.service;
 
 import com.example.spring_boot_docker.model.User;
@@ -30,36 +31,6 @@ public class AuthService {
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
-
-        // Check if raw password meets basic criteria (8 characters, lower and upper case letters, digits, special symbols)
-        if (rawPassword.length() < 8 ||
-            !rawPassword.matches(".*[a-z].*") ||
-            !rawPassword.matches(".*[A-Z].*") ||
-            !rawPassword.matches(".*\\d.*") ||
-            !rawPassword.matches(".*[!@#$%^&*()].*")) {
-            return "PasswordComplexityError";
-        }
-
-        // Check if username is equal or longer than 4 characters
-        if (username.length() < 4) {
-            return "UsernameLengthError";
-        }
-
-        // Check if username only contains alphanumeric characters and underscores
-        if (!username.matches("^[a-zA-Z0-9_]+$")) {
-            return "UsernameFormatError";
-        }
-
-        // Check if email is in valid format
-        if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
-            return "EmailFormatError";
-        }
-
-        // Check if username or email already exists
-        if (userRepository.findByUsername(username) != null ||
-            userRepository.existsByEmail(email)) {
-            return "UserExistsError";
-        }
 
         // Hash the password with bcrypt (automatically salted)
         String hashed = BCrypt.withDefaults().hashToString(12, rawPassword.toCharArray());

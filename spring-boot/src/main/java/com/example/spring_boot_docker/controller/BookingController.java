@@ -1,27 +1,33 @@
-// BookingController is responsible for handling booking-related requests
-
 package com.example.spring_boot_docker.controller;
-import java.util.Map;
 
-import java.util.Collections;
+import java.util.List;
+
+
 import org.springframework.web.bind.annotation.*;
-import com.example.spring_boot_docker.model.BookingRequest;
+
+import com.example.spring_boot_docker.model.Booking;
+import com.example.spring_boot_docker.service.BookingService;
+
 @RestController
-@RequestMapping("/booking")
 public class BookingController {
 
+  BookingService bookingService;
+   public BookingController(BookingService b) {
+     this.bookingService = b;
+   }
 
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/scheduleBooking")
-    public Map<String, String> scheduleBooking(@RequestBody BookingRequest bookingRequest) {
-      return Collections.singletonMap("status", "ok");
+   @CrossOrigin(origins = "http://localhost:4200")
+   @PostMapping("/booking")
+   public String createBooking(@RequestBody Booking booking) {
+      bookingService.createBooking(booking); 
+      return "Ok";
+   }
+
+
+   @CrossOrigin(origins = "http://localhost:4200")
+   @GetMapping("/getbookings")
+    public List<Booking> getAllBookings() {
+      return bookingService.getBookings();
     }
-
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/scheduleSpecialEvent")
-    public Map<String, String> scheduleSpecialEvent(@RequestBody BookingRequest bookingRequest) {
-      return Collections.singletonMap("status", "ok");
-    }
-
 
 }

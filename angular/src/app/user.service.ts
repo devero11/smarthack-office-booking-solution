@@ -5,13 +5,14 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
+
 export class UserService {
 
   public token:string|null = null
   public username:string|null = null
 
+  public  events:UserEvent[] = []
   http = inject(HttpClient)
-
   constructor(private authService: AuthService) {
     if(localStorage.getItem("token")){
       this.token = localStorage.getItem("token")
@@ -41,7 +42,37 @@ export class UserService {
     });
   }
 
+ public requestBookings(): Observable<any> {
+    return this.http.get('http://localhost:8080/getbookings');
+  }
 
+  // Function to subscribe and handle the JSON later
+  public getBookings() {
+    this.requestBookings().subscribe({
+      next: data => {
+
+        console.log(data)
+        data.forEach( (el:Booking) => {
+          if(el.users == this.username)
+          this.events?.push({
+  roomName: 'Seats: ' + el.objectIds.join(", "),
+  title: "",
+  date: el.startTime,
+  time: el.endTime,
+  type: 'meeting' ,
+  description: ""
+          })
+
+        console.log("1")
+        });
+        console.log(this.events)
+        // Parse or process later
+      },
+      error: err => {
+        console.error('Get bookings error:', err);
+      }
+    });
+  }
 
   public saveToken(token:string){
     this.token=token
@@ -54,4 +85,22 @@ export class UserService {
     localStorage.removeItem("token")
   }
 
+}
+
+
+interface UserEvent {
+  roomName: string;
+  title: string;
+  date: string;
+  time: string;
+  type: 'meeting' | 'conference' | 'recreation';
+  description: string;
+}
+
+export interface Booking {
+  id: number;
+  objectIds: number[];
+  users: string;
+  startTime: string; // or Date if you plan to convert the string to Date
+  endTime: string;   // same as above
 }
