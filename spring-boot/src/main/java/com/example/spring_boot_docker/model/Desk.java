@@ -12,7 +12,7 @@ public class Desk {
 
     private String deskNumber;
 
-    // Relație 1:1 cu BookableObject (un birou e un singur obiect rezervabil)
+    // Relatie 1:1 cu BookableObject (un birou e un singur obiect rezervabil)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "object_id", nullable = false, unique = true)
     private BookableObject object;
@@ -24,7 +24,7 @@ public class Desk {
         this.object = object;
     }
 
-    // Getters și Setters
+    // Getters si Setters
     public Long getDeskId() { return deskId; }
     public void setDeskId(Long deskId) { this.deskId = deskId; }
 

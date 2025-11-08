@@ -11,7 +11,7 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookingId;
 
-    // Obiectul rezervat (sală, birou, etc.)
+    // Obiectul rezervat (sala, birou, etc.)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "object_id", nullable = false)
     private BookableObject object;
@@ -36,7 +36,7 @@ public class Booking {
     private String title;
     private String description;
 
-    // ID-ul userului care aprobă rezervarea (manager/admin)
+    // ID-ul userului care aproba rezervarea (manager/admin)
     private Long approvedBy;
 
     public Booking() {}
@@ -50,7 +50,7 @@ public class Booking {
         this.status = status;
     }
 
-    // Getters și Setters
+    // Getters si Setters
     public Long getBookingId() { return bookingId; }
     public void setBookingId(Long bookingId) { this.bookingId = bookingId; }
 
