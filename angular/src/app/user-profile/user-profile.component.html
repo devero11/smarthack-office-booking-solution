@@ -7,9 +7,9 @@
 
 <div class="page-shell">
 
-<div class="top-nav">
-      <app-navigation-bar [activeTab]="'profile'"></app-navigation-bar>
-    </div>
+  <div class="top-nav">
+    <app-navigation-bar [activeTab]="'profile'"></app-navigation-bar>
+  </div>
   <!-- background decor -->
   <div class="bg-decor bg-decor-1"></div>
   <div class="bg-decor bg-decor-2"></div>
@@ -22,12 +22,12 @@
     <div class="left-column">
       <!-- profil -->
       <div class="card profile-card">
-                <div class="profile-top">
+        <div class="profile-top">
           <div class="avatar-circle-big">
-            {{ userService.username?  userService.username[0].toUpperCase() : ""}}
+            {{ userService.username? userService.username[0].toUpperCase() : ""}}
           </div>
           <div>
-            <h2>{{ userService.username?  userService.username : ""}}</h2>
+            <h2>{{ userService.username? userService.username : ""}}</h2>
           </div>
         </div>
 
@@ -38,7 +38,7 @@
       </div>
 
       <!-- PENDING INVITES -->
-            <!-- SCHEDULE -->
+      <!-- SCHEDULE -->
       <div class="card schedule-card">
         <div class="card-header small">
           <h2>Upcoming schedule</h2>
@@ -68,11 +68,3 @@
     </div>
   </div>
 </div>
-
-
-
-
-
-
-
-
