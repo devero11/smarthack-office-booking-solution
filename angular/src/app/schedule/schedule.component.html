@@ -1,0 +1,83 @@
+<div class="page-shell" (click)="closeAllDropdowns()">
+ <div class="nav">
+  <app-navigation-bar [activeTab] = "'schedule'"></app-navigation-bar>
+ </div>
+  <div class="card scheduling-card" (click)="$event.stopPropagation()">
+    <div class="card-header">
+      <div class="logo-circle">S</div>
+      <div class="header-text">
+        <h1>Scheduling</h1>
+        <p class="muted">Book appointments — pick participants and a time slot</p>
+      </div>
+    </div>
+
+    <div class="layout">
+      <!-- Sidebar -->
+      <aside class="booking-panel" (click)="$event.stopPropagation()">
+
+        <!-- Meeting Type -->
+        <!-- Seats -->
+        <label class="label">Selected seats</label>
+        <div class="seats-grid">
+          <div class="seat-box" *ngFor="let s of seats"  >
+            {{ s }}
+          </div>
+          <div class="spacer" *ngIf="seats.length == 0">None</div>
+        </div>
+
+        <!-- Participants -->
+        <!-- Time Interval -->
+        <label class="label">Time interval</label>
+        <div class="relative">
+          <button #timeTrigger class="dropdown-btn" type="button" (click)="$event.stopPropagation(); toggleTimeDropdown()">
+            {{ booking.time || 'Select time interval' }}
+            <span class="caret">▾</span>
+          </button>
+
+          <div
+            #timePopup
+            class="popup-large popup-right-large time-popup"
+            *ngIf="showTimeDropdown"
+            (click)="$event.stopPropagation()"
+            [class.popup-above]="timeDirection === 'above'"
+            [class.popup-below]="timeDirection === 'below'">
+            <div class="popup-large-grid time-grid">
+              <div class="popup-column dates-column">
+                <h4>Date</h4>
+                <input type="date" class="search-input" [(ngModel)]="selectedDate" (change)="onDateChange()" />
+                <div class="date-list">
+                  <div class="date-item" *ngFor="let d of availableDates" [class.active]="d === selectedDate" (click)="selectDateFromList(d)">
+                    {{ d }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="popup-column slots-column">
+                <h4>Available time slots</h4>
+                <div class="slots-list" *ngIf="availableSlots.length; else noSlots">
+                  <button class="time-slot" *ngFor="let s of availableSlots" (click)="selectTime(selectedDate, s)">{{ s }}</button>
+                </div>
+                <ng-template #noSlots>
+                  <div class="muted" style="padding:6px;">No slots available for this date</div>
+                </ng-template>
+              </div>
+            </div>
+
+            <div style="margin-top:10px; display:flex; gap:8px; justify-content:flex-end;">
+              <button class="popup-confirm" (click)="closeTime()">Choose</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-actions">
+          <button class="popup-confirm" (click)="createBooking()">Book</button>
+        </div>
+      </aside>
+
+      <!-- Main area -->
+      <main class="map-area" (click)="closeAllDropdowns()">
+      <app-map (arrayChanged) = "seats = $event"></app-map>
+      </main>
+    </div>
+  </div>
+</div>

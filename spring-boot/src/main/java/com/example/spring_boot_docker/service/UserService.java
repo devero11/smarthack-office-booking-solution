@@ -6,7 +6,7 @@ import io.jsonwebtoken.Jwts;
 import com.example.spring_boot_docker.model.User;
 import io.jsonwebtoken.Claims;
 import com.example.spring_boot_docker.repository.UserRepository;
-import com.example.spring_boot_docker.service.AuthService;
+
 @Service
 public class UserService {
 

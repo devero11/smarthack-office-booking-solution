@@ -1,0 +1,474 @@
+/* Replace the entire schedule.component.css with the block below.
+   This uses the same deep-blue page background & frosted card style
+   so the schedule page matches the other page exactly. */
+app-map{
+  width: 100%;
+}
+/* ----- variables / shared accents ----- */
+:root {
+  --seat-gradient: linear-gradient(90deg, #0ea5e9, #6366f1);
+  --seat-text: #041025;
+  --seat-border: rgba(12, 18, 40, 0.45);
+
+  --accent-gradient: linear-gradient(120deg, #0ea5e9, #6366f1);
+  --accent-text: #020617;
+  --accent-border: rgba(148, 163, 184, 0.12);
+
+  /* page background used on the "second" page */
+  --page-bg: linear-gradient(180deg, #00040f 0%, #00010a 100%);
+}
+
+/* Global host & font */
+:host {
+  display: block;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+}
+
+/* ===== GLOBAL PAGE BACKGROUND (matches the other page) ===== */
+.page-shell {
+  position: relative;
+  min-height: 100vh;
+  height: auto;
+  background: radial-gradient(circle at top, #0f172a 0%, #020617 65%);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  padding: 16px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.bg-decor {
+  position: absolute;
+  filter: blur(80px);
+  opacity: 0.5;
+  border-radius: 9999px;
+}
+
+.bg-decor-1 {
+  width: 420px;
+  height: 420px;
+  background: #6366f1;
+  top: -80px;
+  right: 10%;
+}
+
+.bg-decor-2 {
+  width: 380px;
+  height: 380px;
+  background: #0ea5e9;
+  bottom: 100px;
+  left: 5%;
+}
+
+/* ===== MAIN CARD BACKGROUND (frosted glass) ===== */
+.card {
+  width: min(2560px, 95%);
+  height: auto;
+  border-radius: 14px;
+
+  /* same frosted translucent panel used across the app */
+  background: radial-gradient(circle at top, #2f394c 0%, #121728 65%);
+  backdrop-filter: blur(12px);
+
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 16px;
+  color: #e6eef8;
+
+  /* strong but soft shadow (consistent look) */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.65);
+  overflow: visible;
+}
+
+/* ===== SIDEBAR / BOOKING PANEL ===== */
+.booking-panel {
+  width: 360px;
+  height: 80vh;
+  padding: 14px;
+  border-radius: 10px;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  position: relative;
+  z-index: 5;
+  overflow: visible;
+}
+
+/* header / logo */
+.card-header {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.logo-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  background: linear-gradient(140deg, #0ea5e9, #6366f1);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: #041025;
+}
+
+.header-text h1 {
+  margin: 0;
+  font-size: 1.12rem;
+}
+
+.muted {
+  color: rgba(230, 238, 248, 0.75);
+  font-size: 0.82rem;
+  margin: 0
+}
+
+/* layout */
+.layout {
+  height: auto;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+/* labels / inputs */
+.label {
+  margin-top: 10px;
+  display: block;
+  font-weight: 600;
+  font-size: 0.86rem;
+  color: #e6eef8;
+}
+
+.text-input {
+  max-width: 90%;
+  width: 100%;
+  padding: 8px;
+  border-radius: 8px;
+  background: rgba(2, 6, 23, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  color: #e6eef8;
+}
+
+.text-input, .dropdown-btn, .seat-box, .popup-confirm, .popup-cancel {
+  transition: border-color 0.15s ease-out;
+}
+
+.text-input:hover, .text-input:focus, .dropdown-btn:hover, .seat-box:hover, .popup-confirm:hover, .popup-cancel:hover {
+  border-color: rgba(81, 114, 221, 0.68);
+}
+
+.text-input:focus {
+  outline: none;
+}
+
+/* dropdown button */
+.relative {
+  position: relative;
+}
+
+.dropdown-btn {
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  border-radius: 8px;
+  background: rgba(2, 6, 23, 0.65);
+  color: #e6eef8;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.caret {
+  opacity: 0.8;
+}
+
+/* popup containers */
+.popup-large {
+  position: absolute;
+  width: 480px;
+  background: rgba(6, 10, 20, 0.98);
+  border-radius: 10px;
+  padding: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  z-index: 9999;
+  overflow: auto;
+}
+
+/* popup position variants */
+.popup-above {
+  bottom: calc(100% + 12px);
+  top: auto;
+  transform: translateX(8px);
+}
+
+.popup-below {
+  top: calc(100% + 8px);
+  bottom: auto;
+  transform: translateX(8px);
+}
+
+.popup-right-large {
+  left: 0;
+  right: auto;
+}
+
+/* popup inner grid */
+.popup-large-grid {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.popup-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.popup-column h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #e6eef8;
+}
+
+/* lists inside popup */
+.added-list,
+.available-list,
+.dropdown-list {
+  max-height: 260px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 6px;
+}
+
+.added-row,
+.person-row,
+.dropdown-item {
+  padding: 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+/* search */
+.search-input {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: rgba(2, 6, 23, 0.6);
+  color: #e6eef8;
+}
+
+/* chips */
+.chosen-participants {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 6px 8px;
+  border-radius: 9999px;
+  background: rgba(99, 102, 241, 0.08);
+  color: #e6eef8;
+  font-weight: 600;
+}
+
+/* seats grid */
+.seats-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.seat-box {
+  min-width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  font-weight: 700;
+  color: #e6eef8;
+  cursor: pointer;
+}
+
+/* selected seat = same accent used elsewhere */
+.seat-box.selected {
+  background: var(--seat-gradient);
+  color: var(--seat-text);
+  border-color: var(--seat-border);
+}
+
+/* time popup specifics */
+.time-grid {
+  gap: 16px;
+}
+
+.dates-column {
+  width: 40%;
+}
+
+.date-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 220px;
+  overflow: auto;
+}
+
+.date-item {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(99, 102, 241, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+
+  transition: 0.15s ease-out;
+}
+
+.date-item.active {
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.18);
+}
+
+.slots-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  max-height: 260px;
+  overflow: auto;
+}
+
+.time-slot {
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  cursor: pointer;
+
+  transition: 0.15s ease-out;
+}
+
+.time-slot:hover {
+  background: rgba(99, 102, 241, 0.12);
+}
+
+/* actions */
+.panel-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.popup-confirm {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: var(--accent-gradient);
+  color: var(--accent-text);
+  font-weight: 700;
+}
+
+.popup-cancel {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: transparent;
+  color: #e6eef8;
+  cursor: pointer;
+}
+
+.mini-btn {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  background: transparent;
+  color: #e6eef8;
+  cursor: pointer;
+}
+
+/* participant popup button accents
+   use ::ng-deep to survive Angular view encapsulation in component-scoped CSS */
+:host ::ng-deep .participants-popup .mini-btn.add-accent,
+:host ::ng-deep .participants-popup .mini-btn.remove-accent {
+  background: var(--accent-gradient) !important;
+  color: var(--accent-text) !important;
+  border-color: var(--accent-border) !important;
+  font-weight: 700 !important;
+  box-shadow: 0 6px 18px rgba(13, 71, 130, 0.18) !important;
+}
+
+:host ::ng-deep .participants-popup .mini-btn.add-accent:hover,
+:host ::ng-deep .participants-popup .mini-btn.remove-accent:hover {
+  filter: brightness(0.95) !important;
+  transform: translateY(-1px);
+}
+
+/* small responsive tweaks */
+.map-area {
+  overflow: hidden;
+  background: white;
+  height: 80vh;
+  flex: 1;
+  min-height: 360px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: rgba(230, 238, 248, 0.6);
+}
+
+
+@media (max-width: 900px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .booking-panel {
+    height: 100%;
+    width: calc(100% - 28px);
+  }
+
+  .popup-large {
+    left: 50%;
+    transform: translateX(-50%);
+    width: 92%;
+    bottom: calc(100% + 10px);
+  }
+
+  .popup-large-grid {
+    flex-direction: column;
+  }
+
+  .dates-column,
+  .slots-column {
+    width: 100%;
+  }
+
+  .map-area {
+    width: 100%;
+  }
+}

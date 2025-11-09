@@ -1,3 +1,4 @@
+<!--
 <div class="login-form">
   <div class="main" >
         <h1>LOGIN</h1>
@@ -26,3 +27,74 @@
 
     </div>
 </div>
+-->
+<div class="page-shell">
+  <!-- navbar sus -->
+  <div class="top-nav">
+  </div>
+
+  <div class="bg-decor bg-decor-1"></div>
+  <div class="bg-decor bg-decor-2"></div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="logo-circle">L</div>
+      <div>
+        <h1>Welcome back</h1>
+        <p>Sign in to your account</p>
+      </div>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-body">
+      <!-- EMAIL -->
+      <div class="field">
+        <label for="username">Username</label>
+        <div
+          class="input-wrapper"
+        >
+          <span class="input-icon">👤</span>
+          <input [(ngModel)] = "username"
+            id="username"
+            type="username"
+            formControlName="username"
+            placeholder="Username"
+          />
+        </div>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="field">
+        <label for="password">Password</label>
+        <div
+          class="input-wrapper"
+          [class.input-error]="f['password'].touched && f['password'].invalid"
+        >
+          <span class="input-icon">🔒</span>
+          <input [(ngModel)] = "password"
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Password"
+          />
+        </div>
+        <p class="err" *ngIf="f['password'].touched && f['password'].errors?.['required']">
+          Password is required.
+        </p>
+      </div>
+
+      <!-- FORGOT PASSWORD -->
+            <p class="err" *ngIf="serverError">{{ serverError }}</p>
+
+      <button type="submit" [disabled]="isSubmitting || loginForm.invalid" (click)="loginFormReq()" >
+        <span *ngIf="!isSubmitting">Sign in</span>
+        <span *ngIf="isSubmitting">Signing in…</span>
+      </button>
+    </form>
+
+    <p class="foot">
+      Don’t have an account?
+      <a href="/register">Create one</a>
+    </p>
+  </div>
+</div>
+

@@ -1,5 +1,70 @@
+<!--
 <div class="profile">
   <h1>Username: {{userService.username}}</h1>
   <button  type="submit" (click)="logout()">LOGOUT</button>
 </div>
+-->
 
+<div class="page-shell">
+
+  <div class="top-nav">
+    <app-navigation-bar [activeTab]="'profile'"></app-navigation-bar>
+  </div>
+  <!-- background decor -->
+  <div class="bg-decor bg-decor-1"></div>
+  <div class="bg-decor bg-decor-2"></div>
+
+  <div class="layout">
+    <!-- RÂND SUS: NAV -->
+
+
+    <!-- STÂNGA -->
+    <div class="left-column">
+      <!-- profil -->
+      <div class="card profile-card">
+        <div class="profile-top">
+          <div class="avatar-circle-big">
+            {{ userService.username? userService.username[0].toUpperCase() : ""}}
+          </div>
+          <div>
+            <h2>{{ userService.username? userService.username : ""}}</h2>
+          </div>
+        </div>
+
+
+        <div class="buttons-row">
+          <button class="btn primary" (click)="logout()">Logout</button>
+        </div>
+      </div>
+
+      <!-- PENDING INVITES -->
+      <!-- SCHEDULE -->
+      <div class="card schedule-card">
+        <div class="card-header small">
+          <h2>Upcoming schedule</h2>
+          <p>Rooms you’re booked in</p>
+        </div>
+
+        <div class="events-list">
+          <div class="event-row" *ngFor="let ev of userService.events" (mouseover)="hoveredseats = ev.seats" (mouseleave)="hoveredseats = []">
+            <div class="event-room">{{ ev.roomName }}</div>
+            <div class="event-datetime">
+              <span class="date-line">{{ ev.date }}</span>
+              <span class="time-line">{{ ev.time }}</span>
+            </div>
+
+            <!-- DETALII LA HOVER -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DREAPTA: hartă mare -->
+    <div class="map-column">
+      <div class="card map-placeholder">
+        <app-map [seats] = "hoveredseats"></app-map>
+      </div>
+    </div>
+  </div>
+</div>

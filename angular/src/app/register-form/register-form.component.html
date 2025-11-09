@@ -1,3 +1,4 @@
+<!--
 <div class="register-form">
     <div class="main" >
         <h1>REGISTER</h1>
@@ -30,5 +31,137 @@
 
     </div>
 </div>
+-->
+
+
+<div class="page-shell">
+  <div class="top-nav">
+  </div>
+
+  <div class="bg-decor bg-decor-1"></div>
+  <div class="bg-decor bg-decor-2"></div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="logo-circle">R</div>
+      <div>
+        <h1>Create Account</h1>
+        <p>Join the platform and start exploring</p>
+      </div>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form-body">
+      <!-- USERNAME -->
+      <div class="field">
+        <label for="username">Username</label>
+        <div
+          class="input-wrapper"
+          [class.input-error]="f['username'].touched && f['username'].invalid"
+        >
+          <span class="input-icon">👤</span>
+          <input [(ngModel)] = "username"
+            id="username"
+            type="text"
+            formControlName="username"
+            placeholder="e.g. johndoe"
+          />
+        </div>
+        <p class="err" *ngIf="f['username'].touched && f['username'].errors?.['required']">
+          Username is required.
+        </p>
+        <p class="err" *ngIf="f['username'].touched && f['username'].errors?.['minlength']">
+          Must be at least 3 characters.
+        </p>
+      </div>
+
+      <!-- EMAIL -->
+      <div class="field">
+        <label for="email">Email</label>
+        <div
+          class="input-wrapper"
+          [class.input-error]="f['email'].touched && f['email'].invalid"
+        >
+          <span class="input-icon">📧</span>
+          <input [(ngModel)] = "email"
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="you@example.com"
+          />
+        </div>
+        <p class="err" *ngIf="f['email'].touched && f['email'].errors?.['required']">
+          Email is required.
+        </p>
+        <p class="err" *ngIf="f['email'].touched && f['email'].errors?.['email']">
+          Please enter a valid email.
+        </p>
+      </div>
+
+      <!-- PASSWORD -->
+      <div class="field">
+        <label for="password">Password</label>
+        <div
+          class="input-wrapper"
+          [class.input-error]="f['password'].touched && f['password'].invalid"
+        >
+          <span class="input-icon">🔒</span>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            placeholder="Minimum 6 characters"
+          />
+        </div>
+        <p class="err" *ngIf="f['password'].touched && f['password'].errors?.['required']">
+          Password is required.
+        </p>
+        <p class="err" *ngIf="f['password'].touched && f['password'].errors?.['minlength']">
+          Minimum 6 characters.
+        </p>
+      </div>
+
+      <!-- CONFIRM PASSWORD -->
+      <div class="field">
+        <label for="confirmPassword">Confirm password</label>
+        <div
+          class="input-wrapper"
+          [class.input-error]="
+            (f['confirmPassword'].touched && f['confirmPassword'].invalid) || passwordMismatch
+          "
+        >
+          <span class="input-icon">✅</span>
+          <input [(ngModel)] = "password"
+            id="confirmPassword"
+            type="password"
+            formControlName="confirmPassword"
+            placeholder="Repeat password"
+          />
+        </div>
+        <p class="err" *ngIf="f['confirmPassword'].touched && f['confirmPassword'].errors?.['required']">
+          Please confirm your password.
+        </p>
+        <p class="err" *ngIf="passwordMismatch">
+          Passwords do not match.
+        </p>
+      </div>
+
+      <p class="err" *ngIf="serverError">{{ serverError }}</p>
+
+      <button type="submit" (click) = "registerFormReq()" [disabled]="isSubmitting || registerForm.invalid || passwordMismatch">
+        <span *ngIf="!isSubmitting">Create account</span>
+        <span *ngIf="isSubmitting">Creating…</span>
+      </button>
+    </form>
+
+    <p class="foot">
+      Already have an account?
+      <a href="/login">Sign in</a>
+    </p>
+  </div>
+</div>
+
+
+
+
 
 

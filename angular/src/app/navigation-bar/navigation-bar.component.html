@@ -1,0 +1,19 @@
+<nav class="nav-shell">
+  <button
+    class="nav-btn"
+    [class.active]="activeTab === 'profile'"
+    (click)="selectTab('profile')"
+  >
+
+<a href="/profile">Profile</a>
+  </button>
+
+  <button
+    class="nav-btn"
+    [class.active]="activeTab === 'schedule'"
+    (click)="selectTab('schedule')"
+  >
+<a href="/schedule">Schedule</a>
+  </button>
+</nav>
+
