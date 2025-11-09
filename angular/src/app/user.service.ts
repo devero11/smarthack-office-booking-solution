@@ -30,7 +30,21 @@ export class UserService {
       headers, responseType: 'text' as const});
   }
 
+  public bookObject(objectIds: number[], users: string, startTime: string, endTime: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`
+    });
 
+    const body = {
+      objectIds,
+      users,
+      startTime,
+      endTime
+    };
+
+    return this.http.post(`http://localhost:8080/booking`, body, { headers });
+  }
   public getUsername() {
 
     this.requestUserData().subscribe({
@@ -60,7 +74,8 @@ export class UserService {
   date: el.startTime,
   time: el.endTime,
   type: 'meeting' ,
-  description: ""
+  description: "",
+  seats:el.objectIds
           })
 
         console.log("1")
@@ -95,6 +110,7 @@ interface UserEvent {
   time: string;
   type: 'meeting' | 'conference' | 'recreation';
   description: string;
+  seats:number[];
 }
 
 export interface Booking {

@@ -46,7 +46,7 @@
         </div>
 
         <div class="events-list">
-          <div class="event-row" *ngFor="let ev of userService.events">
+          <div class="event-row" *ngFor="let ev of userService.events" (mouseover)="hoveredseats = ev.seats" (mouseleave)="hoveredseats = []">
             <div class="event-room">{{ ev.roomName }}</div>
             <div class="event-datetime">
               <span class="date-line">{{ ev.date }}</span>
@@ -63,7 +63,7 @@
     <!-- DREAPTA: hartă mare -->
     <div class="map-column">
       <div class="card map-placeholder">
-        <app-map></app-map>
+        <app-map [seats] = "hoveredseats"></app-map>
       </div>
     </div>
   </div>

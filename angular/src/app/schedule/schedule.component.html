@@ -14,99 +14,18 @@
     <div class="layout">
       <!-- Sidebar -->
       <aside class="booking-panel" (click)="$event.stopPropagation()">
-        <label class="label">Title</label>
-        <input class="text-input" type="text" [(ngModel)]="booking.title" placeholder="Enter a title" />
 
         <!-- Meeting Type -->
-        <label class="label">Meeting type</label>
-        <div class="relative">
-          <button #typeTrigger class="dropdown-btn" type="button" (click)="$event.stopPropagation(); toggleTypeDropdown()">
-            {{ booking.type || 'Select meeting type' }}
-            <span class="caret">▾</span>
-          </button>
-
-          <div class="popup-large popup-right-large small-popup" *ngIf="showTypeDropdown" (click)="$event.stopPropagation()">
-            <div class="dropdown-list">
-              <div class="dropdown-item" *ngFor="let t of meetingTypes" (click)="selectType(t)">{{ t }}</div>
-            </div>
-            <div class="panel-actions" style="justify-content:flex-end;margin-top:8px;">
-              <button class="popup-cancel" (click)="showTypeDropdown=false">Close</button>
-            </div>
-          </div>
-        </div>
-
         <!-- Seats -->
         <label class="label">Selected seats</label>
         <div class="seats-grid">
-          <div class="seat-box" *ngFor="let s of seats" (click)="toggleSeat(s)" [class.selected]="seatIsSelected(s)">
+          <div class="seat-box" *ngFor="let s of seats"  >
             {{ s }}
           </div>
+          <div class="spacer" *ngIf="seats.length == 0">None</div>
         </div>
 
         <!-- Participants -->
-        <label class="label">Participants</label>
-        <div class="relative">
-          <button #participantsTrigger class="dropdown-btn" type="button" (click)="$event.stopPropagation(); toggleParticipantsDropdown()">
-            {{ booking.participants.length ? (booking.participants.length + ' added') : 'Search & add' }}
-            <span class="caret">▾</span>
-          </button>
-
-          <div
-            #participantsPopup
-            class="popup-large popup-right-large participants-popup"
-            *ngIf="showParticipantsDropdown"
-            (click)="$event.stopPropagation()"
-            [class.popup-above]="participantsDirection === 'above'"
-            [class.popup-below]="participantsDirection === 'below'">
-            <div class="popup-large-grid">
-              <!-- Left: Added -->
-              <div class="popup-column">
-                <h4>Participants added</h4>
-                <input class="search-input" type="text" placeholder="Search added..." [(ngModel)]="addedQuery" (input)="filterAdded()" />
-                <div class="added-list" *ngIf="filteredAdded.length; else noneAdded">
-                  <div class="added-row" *ngFor="let p of filteredAdded">
-                    <div>
-                      <div class="person-name">{{ p.name }}</div>
-                      <small class="muted">{{ p.email }}</small>
-                    </div>
-                    <div style="display:flex;gap:8px;align-items:center;">
-                      <button class="mini-btn remove-accent" (click)="removeParticipant(p)">Remove</button>
-
-                    </div>
-                  </div>
-                </div>
-                <ng-template #noneAdded>
-                  <div class="muted" style="padding:6px;">No participants added</div>
-                </ng-template>
-              </div>
-
-              <!-- Right: Available -->
-              <div class="popup-column">
-                <h4>Available people</h4>
-                <input class="search-input" type="text" placeholder="Search people..." [(ngModel)]="availableQuery" (input)="filterAvailable()" />
-                <div class="available-list" *ngIf="filteredAvailable.length; else noneAvail">
-                  <div class="person-row" *ngFor="let p of filteredAvailable">
-                    <div style="display:flex;flex-direction:column;">
-                      <div class="person-name">{{ p.name }}</div>
-                      <small class="muted">{{ p.email }}</small>
-                    </div>
-                    <button class="mini-btn add-accent" (click)="addParticipant(p)">Add</button>
-
-                  </div>
-                </div>
-                <ng-template #noneAvail>
-                  <div class="muted" style="padding:6px;">No matches</div>
-                </ng-template>
-              </div>
-            </div>
-
-            <div style="margin-top:10px; display:flex; gap:8px; justify-content:flex-end;">
-              <button class="popup-confirm" (click)="closeParticipants()">Done</button>
-              <button class="popup-cancel" (click)="resetParticipantsSearch()">Clear</button>
-            </div>
-          </div>
-        </div>
-
         <!-- Time Interval -->
         <label class="label">Time interval</label>
         <div class="relative">
@@ -146,20 +65,18 @@
 
             <div style="margin-top:10px; display:flex; gap:8px; justify-content:flex-end;">
               <button class="popup-confirm" (click)="closeTime()">Choose</button>
-              <button class="popup-cancel" (click)="resetDateSelection()">Reset</button>
             </div>
           </div>
         </div>
 
         <div class="panel-actions">
           <button class="popup-confirm" (click)="createBooking()">Book</button>
-          <button class="popup-cancel" (click)="resetForm()">Reset</button>
         </div>
       </aside>
 
       <!-- Main area -->
       <main class="map-area" (click)="closeAllDropdowns()">
-        <p>Map / calendar canvas will appear here</p>
+      <app-map (arrayChanged) = "seats = $event"></app-map>
       </main>
     </div>
   </div>

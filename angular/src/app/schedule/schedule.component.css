@@ -1,7 +1,9 @@
 /* Replace the entire schedule.component.css with the block below.
    This uses the same deep-blue page background & frosted card style
    so the schedule page matches the other page exactly. */
-
+app-map{
+  width: 100%;
+}
 /* ----- variables / shared accents ----- */
 :root {
   --seat-gradient: linear-gradient(90deg, #0ea5e9, #6366f1);
@@ -421,16 +423,10 @@
 
 /* small responsive tweaks */
 .map-area {
+  overflow: hidden;
+  background: white;
   height: 80vh;
-  flex: 1;
-  min-height: 360px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  background: rgba(3, 7, 18, 0.45);
-  color: rgba(230, 238, 248, 0.6);
-}
+flex:1; min-height:360px; display:flex; align-items:center; justify-content:center; border-radius:10px; background: rgba(3,7,18,0.45); color: rgba(230,238,248,0.6); }
 
 
 @media (max-width: 900px) {

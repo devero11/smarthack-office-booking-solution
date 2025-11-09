@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, AfterViewInit, ElementRef, viewChild, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, AfterViewInit, ElementRef, viewChild, ViewChild, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.css']
 })
-export class MapComponent implements OnInit, AfterViewInit {
+export class MapComponent implements OnInit,OnChanges, AfterViewInit {
 
   // --- PUBLIC PROPERTIES (Template Bindings) ---
   public initialViewBox = '-463/2 -1355/2 463/2 1355/2';
@@ -34,14 +34,20 @@ export class MapComponent implements OnInit, AfterViewInit {
   private borderMargin = 0;
   private centerSVG: { x: number, y: number } = { x: 0, y: 0 }; // Zoom center point
 
+  @Input() seats:number[] = []
+   pseats:number[] = []
+
+
   constructor(
   ) {
     this.transform = this.updateTransform();
   }
-
   ngOnInit(): void {
   }
   @ViewChild('mySvg') svgRef!: ElementRef<SVGSVGElement>;
+  rectArray:SVGRectElement[] = []
+
+  @ViewChild('beer') beer!: ElementRef<SVGSVGElement>;
   ngAfterViewInit(): void {
     // Initial positioning and clamping
     this.clampTranslation(document.querySelector('.map-container')?.getBoundingClientRect());
@@ -49,15 +55,48 @@ export class MapComponent implements OnInit, AfterViewInit {
 
 
     const rects: NodeListOf<SVGRectElement> = this.svgRef.nativeElement.querySelectorAll('rect');
-
     // Convert to array if needed
-    const rectArray = Array.from(rects);
+    this.rectArray = Array.from(rects);
+    this.rectArray.push(this.beer.nativeElement as unknown as SVGRectElement)
 
-    console.log(rectArray); // list of all <rect> elements
+    this.rectArray.forEach(rect => rect.classList.add('desk'));
+this.rectArray.forEach((rect, index) => {
+  rect.addEventListener('click', () => this.onRectClick(index, rect));
+});
+    console.log(this.rectArray); // list of all <rect> elements
 
   }
+ ngOnChanges(changes: SimpleChanges): void {
+     this.seats.forEach(element => {
+        this.rectArray[element].classList.add('high')
+     });
+    this.pseats.forEach(element => {
+        this.rectArray[element].classList.remove('high')
 
+     });
+     this.pseats=this.seats
+
+ }
   // --- 1. MOUSE PANNING/ZOOMING ---
+selectedSeats:number[] = []
+ @Output() arrayChanged = new EventEmitter<number[]>();
+onRectClick(index: number, rect: any) {
+
+
+if (this.selectedSeats.includes(index)) {
+  // Remove it
+  this.selectedSeats.splice(this.selectedSeats.indexOf(index), 1);
+  this.rectArray[index].classList.remove('high')
+} else {
+  // Add it
+  this.selectedSeats.push(index);
+this.rectArray[index].classList.add('high')
+}
+this.arrayChanged.emit(this.selectedSeats);
+  console.log(this.selectedSeats)
+}
+
+
 
   public onWheel(event: WheelEvent): void {
     event.preventDefault();
