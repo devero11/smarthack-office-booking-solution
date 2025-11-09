@@ -52,7 +52,7 @@
         <div
           class="input-wrapper"
         >
-          <span class="input-icon"></span>
+          <span class="input-icon">👤</span>
           <input [(ngModel)] = "username"
             id="username"
             type="username"
@@ -74,7 +74,7 @@
             id="password"
             type="password"
             formControlName="password"
-            placeholder="Your password"
+            placeholder="Password"
           />
         </div>
         <p class="err" *ngIf="f['password'].touched && f['password'].errors?.['required']">
