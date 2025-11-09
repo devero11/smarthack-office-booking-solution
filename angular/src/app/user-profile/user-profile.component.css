@@ -335,7 +335,6 @@ button {
 .event-details .small-line {
   font-size: 0.6rem;
   color: rgba(226, 232, 240, 0.4);
-  background-color:
 }
 
 .event-row:hover .event-details {
@@ -347,7 +346,6 @@ button {
 .map-column {
   grid-area: right;
   height: 100%;
-
 }
 
 .map-placeholder {
@@ -363,8 +361,7 @@ button {
 
   overflow: hidden;
 
-  inset: 0;
-  backdrop-filter: blur(16px);
+  background: white;
 
 }
 
