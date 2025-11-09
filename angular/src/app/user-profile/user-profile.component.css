@@ -228,6 +228,12 @@ button {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-height: 50vh;
+  overflow: scroll;
+}
+
+.schedule-card .events-list::-webkit-scrollbar {
+  display: none;
 }
 
 .event-row {
@@ -345,7 +351,7 @@ button {
 /* HARTA */
 .map-column {
   grid-area: right;
-  height: 100%;
+  height: auto;
 }
 
 .map-placeholder {
@@ -360,7 +366,6 @@ button {
   padding-right: 0;
 
   overflow: hidden;
-
   background: white;
 
 }

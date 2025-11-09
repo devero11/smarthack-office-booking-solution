@@ -32,10 +32,13 @@ svg {
    that either have an inkscape:label themselves or are descendants of a group
    labeled DESKS or ROOMS. We explicitly exclude group (<g>) elements so that
    hovering a child does not trigger the group's :hover, which would affect all children. */
-.desk:hover{
-  fill:lightskyblue;
+
+.desk, .high {
+  transition: 0.15s ease-out;
 }
 
-.high{
-  fill:lightskyblue;
+.desk:hover, .high{
+  fill: #0ea5e9;
+  filter: brightness(1.1) saturate(0.8) drop-shadow(0 0 0.05rem #0ea5e9);
+  opacity: 0.9;
 }
