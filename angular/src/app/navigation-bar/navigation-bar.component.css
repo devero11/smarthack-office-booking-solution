@@ -48,7 +48,7 @@ a{
 }
 
 .nav-btn:hover {
-  background: rgba(2, 6, 23, 0.28);
+  background: hsla(230, 14%, 32%, 0.48);
 }
 
 .nav-btn.active {
