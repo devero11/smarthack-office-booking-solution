@@ -340,8 +340,11 @@ app-map{
 .date-item {
   padding: 8px;
   border-radius: 6px;
+  border: 1px solid rgba(99, 102, 241, 0.0);
   background: rgba(255, 255, 255, 0.02);
   cursor: pointer;
+
+  transition: 0.15s ease-out;
 }
 
 .date-item.active {
@@ -361,8 +364,11 @@ app-map{
   padding: 8px 10px;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.02);
+  color: white;
   border: 1px solid rgba(255, 255, 255, 0.03);
   cursor: pointer;
+
+  transition: 0.15s ease-out;
 }
 
 .time-slot:hover {
