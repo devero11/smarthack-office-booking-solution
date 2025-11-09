@@ -2,7 +2,8 @@ import { Component, HostListener, OnInit, ElementRef, ViewChild } from '@angular
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NavigationBarComponent } from '../navigation-bar/navigation-bar.component';
-
+import { MapComponent } from '../map/map.component';
+import { UserService } from '../user.service';
 interface Person {
   id: number;
   name: string;
@@ -17,14 +18,17 @@ interface TimeBlock {
 @Component({
   selector: 'app-schedule',
   standalone: true,
-  imports: [CommonModule, FormsModule, NavigationBarComponent],
+  imports: [CommonModule, FormsModule, NavigationBarComponent,MapComponent],
+
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css']
 })
 export class SchedulingComponent implements OnInit {
   /* model */
-  booking = { title: '', type: '', participants: [] as Person[], time: '' };
+  userService:UserService;
 
+  booking = { title: '', type: '', participants: [] as Person[], time: '' };
+  selectedSeats:number[] = []
   /* ui toggles */
   showTypeDropdown = false;
   showParticipantsDropdown = false;
@@ -32,7 +36,7 @@ export class SchedulingComponent implements OnInit {
 
   /* meeting types & seats */
   meetingTypes = ['Stand-up', '1:1', 'Presentation', 'Workshop', 'Planning'];
-  seats = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3'];
+  seats:number[]= [];
 
   /* people (mock) */
   people: Person[] = [];
@@ -62,7 +66,9 @@ export class SchedulingComponent implements OnInit {
   @ViewChild('timeTrigger', { read: ElementRef }) timeTrigger?: ElementRef<HTMLButtonElement>;
   @ViewChild('timePopup', { read: ElementRef }) timePopup?: ElementRef<HTMLDivElement>;
 
-  constructor() {}
+  constructor(u:UserService) {
+      this.userService = u
+  }
 
   ngOnInit(): void {
     // mock people
@@ -85,10 +91,13 @@ export class SchedulingComponent implements OnInit {
     };
 
     this.timeBlocks = [
-      { date: iso(today), slots: ['09:00 - 09:30', '10:00 - 10:30', '14:00 - 14:30'] },
-      { date: plus(1), slots: ['08:30 - 09:00', '11:00 - 11:30', '16:00 - 16:30'] },
-      { date: plus(2), slots: ['09:15 - 09:45', '12:00 - 12:30'] },
-      { date: plus(3), slots: ['10:00 - 10:30', '13:00 - 13:30'] }
+      { date: iso(today), slots: ['09:00 - 09:30', '10:00 - 10:30', '14:00 - 14:30', '14:30 - 15:00'] },
+
+      { date: plus(1), slots: ['09:00 - 09:30', '10:00 - 10:30', '14:00 - 14:30', '14:30 - 15:00'] },
+      { date: plus(2), slots: ['09:00 - 09:30', '10:00 - 10:30', '14:00 - 14:30', '14:30 - 15:00'] },
+      { date: plus(3), slots: ['09:00 - 09:30', '10:00 - 10:30', '14:00 - 14:30', '14:30 - 15:00'] },
+      { date: plus(4), slots: ['09:00 - 09:30', '10:00 - 10:30', '14:00 - 14:30', '14:30 - 15:00'] },
+      { date: plus(5), slots: ['09:00 - 09:30', '10:00 - 10:30', '14:00 - 14:30', '14:30 - 15:00'] },
     ];
 
     this.availableDates = this.timeBlocks.map(t => t.date);
@@ -277,6 +286,7 @@ export class SchedulingComponent implements OnInit {
   selectDateFromList(d: string) {
     this.selectedDate = d;
     this.updateAvailableSlots();
+    console.log(this.selectedDate)
     setTimeout(() => this.positionTimePopup(), 0);
   }
 
@@ -288,9 +298,27 @@ export class SchedulingComponent implements OnInit {
   selectTime(date: string, slot: string) {
     this.booking.time = `${date} ${slot}`;
     this.showTimeDropdown = false;
+    console.log(this.booking.time)
+    this.startTime=this.parseDateInterval(this.booking.time).startTime
+this.endTime = this.parseDateInterval(this.booking.time).endTime
   }
+  startTime:string = ""
+  endTime:string =""
+parseDateInterval(input: string): { startTime: string; endTime: string } {
+  // Split into date and the rest
+  const firstSpaceIndex = input.indexOf(' ');
+  const datePart = input.slice(0, firstSpaceIndex);
+  const timePart = input.slice(firstSpaceIndex + 1); // "09:00 - 09:30"
 
-  closeTime() {
+  // Split start and end times
+  const [startTimeRaw, endTimeRaw] = timePart.split(' - ');
+
+  // Construct ISO strings
+  const startTime = `${datePart}T${startTimeRaw}:00`;
+  const endTime = `${datePart}T${endTimeRaw}:00`;
+
+  return { startTime, endTime };
+}  closeTime() {
     this.showTimeDropdown = false;
     if (this.timePopup && this.timePopup.nativeElement) {
       this.timePopup.nativeElement.style.maxHeight = '';
@@ -319,6 +347,7 @@ export class SchedulingComponent implements OnInit {
   /* ---------- Misc ---------- */
   createBooking() {
     console.log('Booking created:', this.booking);
+    this.book()
   }
 
   resetForm() {
@@ -332,4 +361,15 @@ export class SchedulingComponent implements OnInit {
     this.showParticipantsDropdown = false;
     this.showTimeDropdown = false;
   }
+
+
+
+  book():void{
+    if(this.userService.username)
+    this.userService.bookObject(this.seats, this.userService.username, this.startTime,this.endTime).subscribe({
+      next: (res) => console.log('Booking successful', res),
+      error: (err) => console.error('Booking failed', err)
+    });
+  }
+
 }

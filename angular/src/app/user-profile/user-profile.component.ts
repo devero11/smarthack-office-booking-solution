@@ -128,7 +128,7 @@ export class UserProfileComponent implements OnInit{
   }
 
 
-
+  hoveredseats:number[]=[]
 }
 
 

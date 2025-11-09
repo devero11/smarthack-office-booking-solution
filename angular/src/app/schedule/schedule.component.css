@@ -1,7 +1,9 @@
 /* Replace the entire schedule.component.css with the block below.
    This uses the same deep-blue page background & frosted card style
    so the schedule page matches the other page exactly. */
-
+app-map{
+  width: 100%;
+}
 /* ----- variables / shared accents ----- */
 :root {
   --seat-gradient: linear-gradient(90deg, #0ea5e9, #6366f1);
@@ -165,8 +167,8 @@ display:flex; gap:16px; align-items:flex-start; }
 .date-item { padding:8px; border-radius:6px; background: rgba(255,255,255,0.02); cursor:pointer; }
 .date-item.active { background: rgba(99,102,241,0.12); border:1px solid rgba(99,102,241,0.18); }
 .slots-list { display:flex; gap:8px; flex-wrap:wrap; max-height:260px; overflow:auto; }
-.time-slot { padding:8px 10px; border-radius:8px; background: rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); cursor:pointer; }
-.time-slot:hover { background: rgba(99,102,241,0.12); }
+.time-slot { padding:8px 10px; border-radius:8px; background: lightgray; border:1px solid rgba(255,255,255,0.03); cursor:pointer; }
+.time-slot:hover { background: gray; }
 
 /* actions */
 .panel-actions { display:flex; gap:8px; margin-top:12px; }
@@ -192,8 +194,10 @@ display:flex; gap:16px; align-items:flex-start; }
 
 /* small responsive tweaks */
 .map-area {
+  overflow: hidden;
+  background: white;
   height: 80vh;
-flex:1; min-height:360px; display:flex; align-items:center; justify-content:center; border-radius:10px; background: rgba(3,7,18,0.45); color: rgba(230,238,248,0.6); }
+flex:1; min-height:360px; display:flex; align-items:center; justify-content:center; border-radius:10px; color: rgba(230,238,248,0.6); }
 
 
 @media (max-width: 900px) {
